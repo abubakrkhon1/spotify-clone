@@ -1,29 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_remote_service.dart';
+part of 'current_user_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authRemoteServiceHash() => r'7764ff41f3e26d40807757dba2a7fe3da3d891d8';
+String _$currentUserNotifierHash() =>
+    r'79002fa00ee30255597cd8f837a94883712545a4';
 
-/// See also [authRemoteService].
-@ProviderFor(authRemoteService)
-final authRemoteServiceProvider =
-    AutoDisposeProvider<AuthRemoteService>.internal(
-      authRemoteService,
-      name: r'authRemoteServiceProvider',
+/// See also [CurrentUserNotifier].
+@ProviderFor(CurrentUserNotifier)
+final currentUserNotifierProvider =
+    NotifierProvider<CurrentUserNotifier, UserModel?>.internal(
+      CurrentUserNotifier.new,
+      name: r'currentUserNotifierProvider',
       debugGetCreateSourceHash:
           const bool.fromEnvironment('dart.vm.product')
               ? null
-              : _$authRemoteServiceHash,
+              : _$currentUserNotifierHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AuthRemoteServiceRef = AutoDisposeProviderRef<AuthRemoteService>;
+typedef _$CurrentUserNotifier = Notifier<UserModel?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

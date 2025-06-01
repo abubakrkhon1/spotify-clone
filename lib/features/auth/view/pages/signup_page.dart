@@ -7,7 +7,7 @@ import 'package:spotify_clone/core/utils.dart';
 import 'package:spotify_clone/core/widgets/loader.dart';
 import 'package:spotify_clone/features/auth/view/pages/login_page.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_gradient_button.dart';
-import 'package:spotify_clone/features/auth/view/widgets/custom_field.dart';
+import 'package:spotify_clone/core/widgets/custom_field.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
@@ -35,10 +35,13 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authViewModelProvider)?.isLoading == true;
+    final isLoading =
+        ref.watch(
+          authViewModelProvider.select((val) => val.isLoading == true),
+        );
 
     ref.listen(authViewModelProvider, (_, next) {
-      next?.when(
+      next.when(
         data: (data) {
           showSnackBar(
             context,
@@ -98,7 +101,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                                   email: emailCtl.text,
                                   password: passwordCtl.text,
                                 );
-                          } else {}
+                          } else {
+                            showSnackBar(context, 'Missing fields');
+                          }
                         },
                       ),
                       SizedBox(height: 15),

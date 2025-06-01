@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:spotify_clone/core/theme/app_pallette.dart';
 import 'package:spotify_clone/core/utils.dart';
 import 'package:spotify_clone/core/widgets/loader.dart';
-import 'package:spotify_clone/features/auth/services/auth_remote_service.dart';
 import 'package:spotify_clone/features/auth/view/pages/signup_page.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_gradient_button.dart';
-import 'package:spotify_clone/features/auth/view/widgets/custom_field.dart';
+import 'package:spotify_clone/core/widgets/custom_field.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
+import 'package:spotify_clone/features/home/view/home_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -28,22 +27,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     emailCtl.dispose();
     passCtl.dispose();
 
-    // formKey.currentState!.validate();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authViewModelProvider)?.isLoading == true;
+    final isLoading = ref.watch(authViewModelProvider).isLoading == true;
 
     ref.listen(authViewModelProvider, (_, next) {
-      next?.when(
+      next.when(
         data: (data) {
-          //TODO: Navigate to home page
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => const LoginPage()),
-          // );
+          if (data != null) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+              (route) => false,
+            );
+          }
         },
         error: (error, st) {
           showSnackBar(context, error.toString());
@@ -81,17 +81,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   AuthGradientButton(
                     buttonText: 'Sign In',
                     onTap: () async {
-                      final res = await AuthRemoteService().signIn(
-                        email: emailCtl.text,
-                        password: passCtl.text,
-                      );
-
-                      final val = switch (res) {
-                        Left(value: final l) => l,
-                        Right(value: final r) => r,
-                      };
-                      print(val);
+                      if (formKey.currentState!.validate()) {
+                        await ref
+                            .read(authViewModelProvider.notifier)
+                            .loginUser(
+                              email: emailCtl.text,
+                              password: passCtl.text,
+                            );
+                      } else {
+                        showSnackBar(context, 'Missing fields');
+                      }
                     },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                      );
+                    },
+                    child: Text('click'),
                   ),
                   SizedBox(height: 15),
                   GestureDetector(
