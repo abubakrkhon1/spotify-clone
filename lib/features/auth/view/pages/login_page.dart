@@ -7,7 +7,7 @@ import 'package:spotify_clone/features/auth/view/pages/signup_page.dart';
 import 'package:spotify_clone/features/auth/view/widgets/auth_gradient_button.dart';
 import 'package:spotify_clone/core/widgets/custom_field.dart';
 import 'package:spotify_clone/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:spotify_clone/features/home/view/home_page.dart';
+import 'package:spotify_clone/features/home/view/pages/home_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});

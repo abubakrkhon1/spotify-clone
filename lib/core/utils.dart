@@ -14,7 +14,9 @@ void showSnackBar(BuildContext context, String content) {
 
 Future<File?> pickAudio() async {
   try {
-    final filePickerRes = await FilePicker.platform.pickFiles(type: FileType.audio);
+    final filePickerRes = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+    );
 
     if (filePickerRes != null) {
       return File(filePickerRes.files.first.xFile.path);
@@ -27,7 +29,9 @@ Future<File?> pickAudio() async {
 
 Future<File?> pickImage() async {
   try {
-    final filePickerRes = await FilePicker.platform.pickFiles(type: FileType.image);
+    final filePickerRes = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
 
     if (filePickerRes != null) {
       return File(filePickerRes.files.first.xFile.path);
@@ -36,4 +40,18 @@ Future<File?> pickImage() async {
   } catch (e) {
     return null;
   }
+}
+
+String rgbToHex(Color color) {
+  return '${color.red.toRadixString(16).padLeft(2, '0')}${color.green.toRadixString(16).padLeft(2, '0')}${color.blue.toRadixString(16).padLeft(2, '0')}';
+}
+
+Color hexToColor(String hex) {
+  hex = hex.replaceAll('#', '');
+
+  if (hex.length == 6) {
+    hex = 'ff$hex';
+  }
+
+  return Color(int.parse(hex, radix: 16));
 }
